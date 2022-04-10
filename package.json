@@ -4,9 +4,9 @@
   "description": "A fully integrated chat app built with MERN and websockets(socket.io) with a fine UI too.",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha test --exit",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test": "mocha test/*/*.test.js --exit"
   },
   "author": "Harrison Osagiede",
   "license": "ISC",

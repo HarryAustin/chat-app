@@ -78,6 +78,7 @@ describe("register integration test for controller", () => {
       // hash the password
       const registerService = sinon.stub("UserService", registerUser).returns({
         user: {
+          _id: 1,
           username: req.body.username,
           password: "somethingRandom",
         },
@@ -89,12 +90,18 @@ describe("register integration test for controller", () => {
       expect(validationFunc.calledWith(req.body)).to.be.true;
       expect(validationFunc.calledBefore(registerService)).to.be.true;
 
+      expect(registerService.calledOnce).to.be.true;
+      expect(registerService.calledWith(req.body.username, req.body.password))
+        .to.be.true;
+
       expect(loginController.errors).to.be.undefined;
       expect(loginController.user).to.not.be.undefined;
       expect(loginController.user.name).to.equal(req.user.name);
-      expect(loginController.user.password).to.not.be.undefined;
-      expect(loginController.user.password).to.not.equal(null);
-      expect(loginController.user.password).to.not.equal(req.body.password);
+      expect(loginController.user._id).to.not.be.undefined;
+      expect(loginController.user._id).to.equal(1);
+      //   expect(loginController.user.password).to.not.be.undefined;
+      //   expect(loginController.user.password).to.not.equal(null);
+      //   expect(loginController.user.password).to.not.equal(req.body.password);
     });
   });
 });
