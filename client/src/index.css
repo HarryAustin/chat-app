@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #f5fdf8;
+  --button-background: #25d366;
+  --button-white-text: #eafaef;
+  --black-text-color: #151515;
+  --grey-button-black-color: #393937;
+  --grey-button-background: #effde6;
+  --message-grey-background: #f4f6f2;
+  --green-text-color: #427b76;
+  --message-input-background: #f4f6f2;
+  --message-input-text: rgb(164, 164, 164);
+  --time-seen: #b7b8b8;
+}
+
+@font-face {
+  font-family: "Black";
+  src: url("./assets/fonts/FreightSansProBlack-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Bold";
+  src: url("./assets/fonts/FreightSansProBold-Regular.ttf");
+}
+
+@font-face {
+  font-family: "SemiBold";
+  src: url("./assets/fonts/FreightSansProSemibold-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Medium";
+  src: url("./assets/fonts/FreightSansProMedium-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Light";
+  src: url("./assets/fonts/FreightSansProLight-Regular.ttf");
+}
+
+body {
+  font-size: 10px;
+  font-family: "Medium", sans-serif;
+  color: var(--black-text-color);
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}

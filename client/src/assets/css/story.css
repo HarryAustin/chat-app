@@ -1,0 +1,32 @@
+.story {
+  margin-right: 1.5rem;
+  text-align: center;
+}
+
+.story__image {
+  height: 4rem;
+  width: 4rem;
+}
+
+.story__image > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 49%;
+  border: 2px solid var(--button-background);
+  object-fit: cover;
+  object-position: top center;
+  padding: 0.2rem;
+}
+
+.story__username {
+  margin-top: 0.3rem;
+  /* Ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.story__username > h2 {
+  color: var(--grey-button-black-color);
+  font-size: 0.9rem;
+}

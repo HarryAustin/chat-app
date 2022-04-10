@@ -1,0 +1,55 @@
+.message__and__time {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sender {
+  float: right;
+}
+
+.message {
+  background: var(--message-grey-background);
+  max-width: 13rem;
+  padding: 1rem 0.7rem;
+  margin: 0rem 0rem; /* check again*/
+  border-radius: 18px;
+  border-bottom-left-radius: 0px;
+}
+
+.sender__message {
+  background: var(--button-background);
+}
+
+.message > h2 {
+  word-break: break-all;
+  font-family: "Light";
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--green-text-color);
+  line-height: 1.3rem;
+}
+
+.sender__message > h2 {
+  color: var(--background);
+}
+
+.message__time {
+  color: var(--time-seen);
+  font-size: 0.8rem;
+  font-family: "Light";
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+@media screen and (min-width: 1200px) {
+  .message {
+    max-width: 30rem;
+    margin: 0rem 1.5rem;
+  }
+
+  .sender__time {
+    margin-right: 1rem;
+  }
+}

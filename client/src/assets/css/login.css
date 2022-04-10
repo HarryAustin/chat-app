@@ -1,0 +1,198 @@
+.login__mobile {
+    width: 90%;
+    margin: auto;
+  }
+  
+  .login__cover img {
+    height: 11rem;
+    width: 100%;
+    object-position: center;
+    margin-top: 1rem;
+  }
+  
+  .title {
+    margin-top: 0.5rem;
+    font-family: "Medium";
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--grey-button-black-color);
+  }
+  
+  .login__cover p {
+    font-family: "Medium";
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--green-text-color);
+    margin-top: 0.4rem;
+  }
+  
+  .login__form {
+    margin-top: 3.5rem;
+  }
+  
+  .login__form > h1{
+    text-align:center;
+    font-size: 1.6rem;
+    margin-top: -1.8rem;
+    font-weight: 600;
+    color: var(--grey-button-black-color);
+  }
+  
+  .login__field {
+    margin-top: 2.6rem;
+    position: relative;
+    width: 100%;
+  }
+  
+  .login__field > input {
+    width: 100%;
+    height: 3rem;
+    padding: 1.6rem 0.9rem;
+    font-size: 1.2rem;
+    font-family: "Light";
+    font-weight: 600;
+    outline: none;
+    border: 0.5px solid rgba(57, 57, 55, 0.2);
+    border-radius: 7px;
+  }
+  
+  .login__field > input::placeholder {
+    font-family: "Light";
+    font-weight: 700;
+    color: rgba(57, 57, 55, 0.8);
+    font-size: 1rem;
+  }
+  
+  .login__field > label {
+    position: absolute;
+    left: 0;
+    top: -1.5rem;
+    font-size: 1rem;
+    font-family: "Medium";
+    color: rgba(57, 57, 55, 0.8);
+  }
+  
+  .submit__form > button {
+    width: 100%;
+    padding: 1rem 0.9rem;
+    border-radius: 7px;
+    outline: none;
+    border: 0.5px solid rgba(57, 57, 55, 0.2);
+    font-size: 0.9rem;
+    background: var(--button-background);
+    font-family: "Light";
+    font-weight: 700;
+    color: var(--button-white-text);
+    letter-spacing: 1px;
+  }
+  
+  .button__field {
+    margin-top: 1.3rem;
+  }
+  
+  .submit__form > button:hover {
+    background: initial;
+    color: var(--grey-button-black-color);
+    font-family: "Medium";
+    font-weight: 700;
+  }
+
+  .login__footer {
+    margin-top: 1.5rem;
+    font-size: .7rem;
+  }
+
+  .login__footer h2 {
+    font-weight: 300;
+  }
+
+  .footer__link {
+      color: var(--button-background);
+      font-family: "Medium";
+  }
+  
+  @media screen and (min-width: 1200px) {
+    .login__mobile {
+      display: flex;
+      align-items: center;
+      /* background: green; */
+      height: 100vh;
+      width: 80%;
+      margin: auto;
+      /* justify-content: space-between; */
+    }
+    .login__cover {
+      width: 55%;
+      height: 100%;
+      margin-right: 5%;
+      position: relative;
+      /* background: red; */
+    }
+  
+    .text__content {
+      position: absolute;
+      top: 2rem;
+      left: 3rem;
+    }
+  
+    .text__content > p {
+      font-family: "Light";
+      font-weight: 600;
+    }
+
+
+    .login__cover img {
+      height: 70%;
+      width: 100%;
+      object-position: center;
+      margin-top: 7rem;
+    }
+  
+    .title {
+      margin-top: initial;
+      font-family: "Medium";
+      font-size: initial;
+      text-align: initial;
+      color: var(--grey-button-black-color);
+    }
+  
+    .login__form {
+      width:25rem;
+    }
+  
+    /* .signup__form > h1{
+      font-family
+    } */
+  
+    .login__field > input {
+      height: 2.8rem;
+      padding: 1.3rem 0.9rem;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+  
+    .login__field > input::placeholder {
+      font-size: 0.9rem;
+    }
+  
+    .login__field > label {
+      font-size: 0.9rem;
+      font-family: "Medium";
+      font-weight: 200;
+    }
+  
+    .submit__form > button {
+      padding: 0.7rem 0.6rem;
+      border-radius: 5px;
+      border: 0.5px solid rgba(57, 57, 55, 0.2);
+    }
+  
+    .button__field {
+      margin-top: 2rem;
+    }
+  
+    .submit__form > button:hover {
+      border-color: rgba(57, 57, 55, 0.4);
+    }
+  }
+  
