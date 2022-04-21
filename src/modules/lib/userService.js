@@ -16,4 +16,25 @@ const registerUser = async (userObj) => {
   }
 };
 
-module.exports = { registerUser };
+const valid = async (username, password) => {
+  // check if user exists
+  const user = await User.findOne({ username });
+  if (user === null) {
+    return {
+      errors: { username: "Please enter correct username", password: null },
+    };
+  }
+  // //  compare passwords
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return {
+      errors: { username: null, password: "password is incorrect" },
+    };
+  }
+
+  if (user && isMatch) {
+    return { user: { _id: user._id, username: user.username } };
+  }
+};
+
+module.exports = { registerUser, valid };

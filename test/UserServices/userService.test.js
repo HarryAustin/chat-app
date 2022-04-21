@@ -41,5 +41,30 @@ describe("user services", () => {
       expect(UserServiceFunc.user).to.have.property("_id");
       expect(UserServiceFunc.user._id).to.not.be.undefined;
     });
+
+    it("it should check if user is valid", async () => {
+      const username = "correct";
+      const password = "correct";
+
+      // check if user exist
+      const userData = {
+        _id: 1,
+        username: "correct",
+      };
+      const user = sinon.stub(User, "findOne").returns(userData);
+
+      // check if password matches if user exist
+      const isMatch = sinon.stub(bcrypt, "compare").returns(true);
+
+      const validUser = await UserService.valid(username, password);
+
+      expect(user.calledOnce).to.be.true;
+
+      expect(isMatch.calledOnce).to.be.true;
+
+      expect(validUser).to.have.property("user");
+      expect(validUser.user).to.have.property("_id");
+      expect(validUser.user).to.not.have.property("password");
+    });
   });
 });
