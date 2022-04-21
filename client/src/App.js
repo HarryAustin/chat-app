@@ -10,8 +10,8 @@ function App() {
   return (
     <div className="app">
       {/* <Chat /> */}
-      <ChatMessage />
-      {/* <SignUp /> */}
+      {/* <ChatMessage /> */}
+      <SignUp />
       {/* <Login /> */}
     </div>
   );
