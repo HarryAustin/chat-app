@@ -4,7 +4,6 @@ const validationError = (error) => {
   errorArray.forEach((error) => {
     errors[error.path[0]] = error.message;
   });
-  console.log("errors", error);
   return errors;
 };
 
