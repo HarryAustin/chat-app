@@ -1,4 +1,4 @@
-const Joi = require("Joi");
+const Joi = require("joi");
 
 const registerValidation = Joi.object({
   username: Joi.string().required().min(2).max(20).trim().messages({
@@ -14,10 +14,10 @@ const registerValidation = Joi.object({
     "string.empty": "password is required",
   }),
   confirmPassword: Joi.any().required().valid(Joi.ref("password")).messages({
-    "any.required": "please confirm your password",
-    "any.valid": "passwords do not match",
+    "any.only": "passwords do not match",
+    "any.required": "please confirm password",
   }),
-}).options({ abortEarly: true });
+}).options({ abortEarly: false });
 
 const loginValidation = Joi.object({
   username: Joi.string().required().min(2).max(20).trim().messages({
@@ -32,6 +32,6 @@ const loginValidation = Joi.object({
     "any.required": "password is required",
     "string.empty": "password is required",
   }),
-}).options({ abortEarly: true });
+}).options({ abortEarly: false });
 
 module.exports = { registerValidation, loginValidation };

@@ -9,8 +9,12 @@ const registerUser = async (userObj) => {
     userObj.password = hashedPassword;
     // create
     const user = await User.create(userObj);
-
-    return { user: user };
+    const returnUser = {
+      _id: user._id,
+      username: user.username,
+      profilePicture: user.profilePicture,
+    };
+    return { user: returnUser };
   } catch (err) {
     logger(err.message);
   }

@@ -8,7 +8,9 @@ const Jwt = require("jsonwebtoken");
 
 const register = async (req, res, next) => {
   try {
-    const { value, error } = registerValidation.validate(req.body);
+    const { value, error } = registerValidation.validate(req.body, {
+      abortEarly: false,
+    });
     if (error && Object.values(error).length > 0) {
       const registerError = ErrorHandler.validationError(error);
       return res.status(406).json({ errors: registerError });
