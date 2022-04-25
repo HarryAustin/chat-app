@@ -54,6 +54,26 @@
     outline: none;
     border: 0.5px solid rgba(57, 57, 55, 0.2);
     border-radius: 7px;
+    position: relative
+  }
+
+  .hide {
+    height: 1.2rem;
+    width: 1.2rem;
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .errors{
+    margin-top:0.4rem;
+  }
+  
+  .errors > h3{
+    color: red;
+    font-size: 1rem;
   }
   
   .login__field > input::placeholder {

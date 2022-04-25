@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-// css
+// css && assets
 import "../assets/css/signup.css";
 import SocialMediaImg from "../assets/imgs/Social Media.svg";
+import Hide from "../assets/imgs/Hide.png";
+// components
+import Notify from "../components/Notify";
 
 const SignUp = () => {
   // initialize history
@@ -16,6 +19,26 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
+  const [hide, setHide] = useState(true);
+
+  // const [success, setSuccess] = useState(false);
+  const [notification, setNotification] = useState({
+    success: false,
+    message: "",
+    timeout: 1000, //by default, it takes 1 sec
+  });
+
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // func
+  const showHide = () => {
+    setHide(!hide);
+  };
+
   const handleChange = (e) => {
     const mData = { ...data };
     mData[e.target.name] = e.target.value;
@@ -26,18 +49,46 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const res = await axios.post("/auth/v1/register", data);
-      console.log("res", res);
       if (res.data.success) {
+        // setSuccess(true);
+        setNotification({
+          success: true,
+          message: "Registered!",
+          timeout: 1000,
+        });
+
+        const mErrors = { username: "", password: "", confirmPassword: "" };
+        setErrors(mErrors);
+        //Reset it back
+
         //  if sucess, push user to login
-        history.push("/auth/login");
+        setTimeout(() => {
+          history.push("/auth/login");
+        }, 2000);
       }
     } catch (err) {
-      console.log("err", err.response.data);
+      // update errors
+      setErrors(err.response.data.errors);
+      // show notifications for error
+      setNotification({
+        success: true,
+        message: "Error login in",
+        timeout: "1000",
+      });
+      // update back for other errors
+      setTimeout(() => {
+        setNotification({ success: false, message: "", timeout: 1000 });
+      }, 2000);
     }
   };
 
   return (
     <div className="signup">
+      {notification.success ? (
+        <Notify message={notification.message} timeout={notification.timeout} />
+      ) : (
+        ""
+      )}
       <div className="signup__mobile">
         <div className="signup__cover">
           <img src={SocialMediaImg} alt="social media about" />
@@ -62,32 +113,43 @@ const SignUp = () => {
               <label for="username">
                 <h4>username</h4>
               </label>
+              <div className="errors">
+                <h3>{errors.username}</h3>
+              </div>
             </div>
             <div className="signup__field">
               <input
-                type="password"
+                type={hide ? "password" : "text"}
                 className="signup__input"
                 id="password"
                 name="password"
                 placeholder="5+ characters, 1 Capital letter"
                 onChange={handleChange}
               />
+              <img src={Hide} className="hide" alt="hide" onClick={showHide} />
               <label for="password">
                 <h4>password</h4>
               </label>
+              <div className="errors">
+                <h3>{errors.password}</h3>
+              </div>
             </div>
             <div className="signup__field">
               <input
-                type="password"
+                type={hide ? "password" : "text"}
                 className="signup__input"
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="5+ characters, 1 Capital letter"
                 onChange={handleChange}
               />
+              <img src={Hide} className="hide" alt="hide" onClick={showHide} />
               <label for="confirmPassword">
                 <h4>confirm password</h4>
               </label>
+              <div className="errors">
+                <h3>{errors.confirmPassword}</h3>
+              </div>
             </div>
 
             <div className="signup__field profile__field">

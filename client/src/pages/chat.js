@@ -68,6 +68,20 @@ const Chat = () => {
     },
   ]);
 
+  /**
+   * Just like this above, after searching for users, return an array with the data as 
+   * [{
+   *   id: 1,
+   *    name: 'user 1',
+   *    ....
+   * }
+   * ]
+   * 
+   Then when a user clicks on any of the users, we pick the id and create an Api query like '/chat/create?user={id}
+  // since these are the data, i must offcourse call the data in a component or some "html".
+  // we can render each in a link with their id to the chat page, then make the request and other logic.
+   */
+
   return (
     <div className="chatApp">
       <div className="chat">
