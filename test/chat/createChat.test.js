@@ -63,6 +63,7 @@ describe("Chat Conversation", () => {
         status: false, //This means both users havent agreed to the chat yet.
         messages: [{ message: "hey there!", time: "23452637263" }], //this means untill a user chats with the other, till then we create the chat.
         // Messages must be paginated!!!
+        notificationSent: false,
       });
       // create chat service will check if a chat had exist before, if it had exist, it'll return the chat
       // and the data above is when a new chat is created.
@@ -71,12 +72,8 @@ describe("Chat Conversation", () => {
       const notificationUser = sinon.stub(Notification, "create").returns({
         _id: "4",
         message: "user 1 has sent a request to chat with you",
-        time: "23452234422", //time/date of notification
         chat: "3", //for the user to make a link to
-        user: {
-          username: "user 1",
-          profilePicture: "default",
-        }, //something to refer to user, populate for user information
+        user: "1", //something to refer to user, populate for user information
       });
 
       const chat = await createChat(req, res, next);
@@ -84,9 +81,8 @@ describe("Chat Conversation", () => {
       expect(createService.calledWith(chatOwner, chatUser)).to.be.true;
       expect(createService.calledOnce).to.be.true;
 
-      expect(notificationUser.calledOnce).to.be.true;
-
-      expect(chat).to.have.property("status");
+      expect(chat).to.have.property("chat");
+      expect(chat.chat).to.have.property("status");
     });
 
     it("it should return the chat instead of creating the chat", async () => {
@@ -102,6 +98,9 @@ describe("Chat Conversation", () => {
       const next = () => {
         return;
       };
+
+      const chatUser = req.body.user;
+      const chatOwner = req.user._id;
 
       // here, chat exists, so it should be returning information of the chat and not creating it.
       const createService = sinon.stub(ChatService, "createChat").returns({
@@ -123,6 +122,8 @@ describe("Chat Conversation", () => {
         // Messages must be paginated!!!
         status: true, //since the status is true, a notification will not be sent
       });
+
+      const notificationUser = sinon.spy(Notification, "create");
 
       const chat = await createChat(req, res, next);
 

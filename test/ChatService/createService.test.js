@@ -7,7 +7,7 @@ const Chat = require("../../src/modules/models/Chat");
 const User = require("../../src/modules/models/User");
 
 // service
-const { createChatService } = require("../../src/modules/lib/chatService");
+const { createChat } = require("../../src/modules/lib/chatService");
 
 describe("Create Chat Service", () => {
   describe("chat service errors", () => {});
@@ -23,6 +23,11 @@ describe("Create Chat Service", () => {
       sinon.restore();
     });
 
+    afterEach(() => {
+      sinon.verifyAndRestore();
+      sinon.restore();
+    });
+
     after(() => {
       sinon.verifyAndRestore();
       sinon.restore();
@@ -34,8 +39,8 @@ describe("Create Chat Service", () => {
 
       // we will find a chat with these 2 Ids
       // query "db.fakeCollection.find({ elements: {$all: ['a', 'd']}})"
-      const createChat = sinon.stub(Chat, "findOne").returns({
-        user: [
+      const findChat = sinon.stub(Chat, "findOne").returns({
+        users: [
           {
             _id: "1",
             username: "user 1",
@@ -57,11 +62,11 @@ describe("Create Chat Service", () => {
         status: true,
       });
 
-      const createService = await createChatService(chatOwner, chatUser);
+      const createService = await createChat(chatOwner, chatUser);
 
-      expect(createChat.calledOnce).to.be.true;
+      expect(findChat.calledOnce).to.be.true;
 
-      expect(createService).to.have.property("user");
+      expect(createService).to.have.property("users");
       expect(createService).to.have.property("status");
     });
 
@@ -69,11 +74,8 @@ describe("Create Chat Service", () => {
       const chatOwner = "1";
       const chatUser = "2";
 
-      const findChat = sinon.stub(Chat, "findOne").returns(null);
-      // returns null, so create the chat
-
       const createChat = sinon.stub(Chat, "create").returns({
-        user: [
+        users: [
           {
             _id: "1",
             username: "user 1",
@@ -86,20 +88,15 @@ describe("Create Chat Service", () => {
             profilePicture: "default",
           }, //user 2
         ],
-        chatName: "user 2",
-        messages: [
-          {
-            message: "hi there !",
-          }, //message from user 1 used to create chat
-        ],
+        messages: [],
         status: false,
       });
 
-      const createService = await createChatService(chatOwner, chatUser);
+      const createService = await createChat(chatOwner, chatUser);
 
-      expect(findChat.calledOnce).to.be.true;
+      expect(createChat.calledOnce).to.be.true;
 
-      expect(createService).to.have.property("user");
+      expect(createService).to.have.property("users");
       expect(createService).to.have.property("status");
     });
   });
