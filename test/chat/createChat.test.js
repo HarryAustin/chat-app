@@ -1,10 +1,10 @@
 const chai = require("chai");
 const expect = chai.expect;
 const sinon = require("sinon");
-const { createResponse } = require("node-mocks-http");
+const { createRequest, createResponse } = require("node-mocks-http");
 
 // controller
-const { createChat } = require("../../src/modules/controllers/chat");
+const { createChatController } = require("../../src/modules/controllers/chat");
 
 // models
 const Notification = require("../../src/modules/models/Notification");
@@ -51,11 +51,18 @@ describe("Chat Conversation", () => {
 
       //   service to create conversation
       const createService = sinon.stub(ChatService, "createChat").returns({
-        user: {
-          _id: "2",
-          username: "user 2",
-          profilePicture: "default",
-        },
+        user: [
+          {
+            _id: "2",
+            username: "user 2",
+            profilePicture: "default",
+          },
+          {
+            _id: "1",
+            username: "user 1",
+            profilePicture: "default",
+          },
+        ],
         chat: {
           _id: "3",
           chatName: "user 2",
@@ -76,13 +83,10 @@ describe("Chat Conversation", () => {
         user: "1", //something to refer to user, populate for user information
       });
 
-      const chat = await createChat(req, res, next);
+      const chat = await createChatController(req, res, next);
 
       expect(createService.calledWith(chatOwner, chatUser)).to.be.true;
       expect(createService.calledOnce).to.be.true;
-
-      expect(chat).to.have.property("chat");
-      expect(chat.chat).to.have.property("status");
     });
 
     it("it should return the chat instead of creating the chat", async () => {
@@ -120,12 +124,12 @@ describe("Chat Conversation", () => {
           },
         ],
         // Messages must be paginated!!!
-        status: true, //since the status is true, a notification will not be sent
+        status: false, //since the status is true, a notification will not be sent
       });
 
       const notificationUser = sinon.spy(Notification, "create");
 
-      const chat = await createChat(req, res, next);
+      const chat = await createChatController(req, res, next);
 
       expect(createService.calledOnce).to.be.true;
       expect(createService.calledWith(chatOwner, chatUser)).to.be.true;

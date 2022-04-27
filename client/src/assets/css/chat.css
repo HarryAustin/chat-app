@@ -73,6 +73,7 @@
   display: none;
 }
 
+
 .header__right {
   display: flex;
   align-items: center;
@@ -107,6 +108,9 @@
   width: 100%;
   overflow-x: scroll;
 }
+
+
+
 
 /* @media screen and (min-width: 1200px) {
   .desktop {

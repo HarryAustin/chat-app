@@ -4,16 +4,8 @@ import "../assets/css/desktopChat.css";
 // Components
 import Message from "./Message";
 import Conversation from "./Conversation";
+import Header from "./AppHeader";
 
-// Assets
-import UserPic from "../assets/imgs/ToyFaces_Colored_BG_29.jpg";
-import HiPic from "../assets/imgs/waving-hand.png";
-// ---
-import SearchIcon from "../assets/imgs/Search.svg";
-import HomeIcon from "../assets/imgs/Home.svg";
-import AddIcon from "../assets/imgs/Plus.svg";
-import ExploreIcon from "../assets/imgs/Activity.svg";
-import LoveIcon from "../assets/imgs/Heart.svg";
 // ---
 import SmileyIcon from "../assets/imgs/slightly-smiling-face.png";
 import CameraIcon from "../assets/imgs/Camera.svg";
@@ -69,50 +61,8 @@ const DesktopChat = () => {
   ]);
   return (
     <div className="container">
-      <header className="chat__header">
-        <div className="header__left">
-          <div className="header__profilePic">
-            <img src={UserPic} alt="user_pic" />
-          </div>
-          <div className="header__welcomeText">
-            <div className="hi">
-              <h1>hi</h1>
-              <img className="welcome__pic" src={HiPic} alt="hi__pic" />
-            </div>
-            <h2 className="header__username">James</h2>
-          </div>
-        </div>
-        {/* Desktop View */}
-        {/* Desktop */}
-        <div className="search__desktop__view desktop">
-          <span className="search__span">
-            <input
-              className="search__input"
-              type="search"
-              placeholder="search"
-            />
-            <img src={SearchIcon} alt="search__icon" />
-          </span>
-        </div>
-
-        {/* Desktop view */}
-        <div className="header__right__desktop desktop">
-          <div className="header__home">
-            <img src={HomeIcon} alt="home__icon" />
-          </div>
-          <div className="header__add">
-            <img src={AddIcon} alt="add__icon" />
-          </div>
-          <div className="header__explore">
-            <img src={ExploreIcon} alt="explore__icon" />
-          </div>
-          <div className="header__love">
-            <img src={LoveIcon} alt="love__icon" />
-          </div>
-        </div>
-        {/* End desktop */}
-        {/* end desktop */}
-      </header>
+      {/* Header */}
+      <Header />
 
       {/* Conversation */}
       <div className="chat__and__conversation desktop__view">

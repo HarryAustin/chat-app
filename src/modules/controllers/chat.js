@@ -1,8 +1,27 @@
+const User = require("../models/User");
 const Chat = require("../models/Chat");
 const ChatService = require("../lib/chatService");
 const Notification = require("../models/Notification");
 
 const { logger } = require("../utils/logger");
+
+const searchUsers = async (req, res, next) => {
+  // search query params
+  try {
+    const query = req.query.search
+      ? {
+          username: { $regex: req.query.search, $options: "i" },
+        }
+      : {}; // either it finds all the users or search that user passed in search
+    const users = await User.find(query)
+      .find({ _id: { $ne: req.user._id } })
+      .select("-password");
+
+    return res.json({ users: users });
+  } catch (err) {
+    next(err);
+  }
+};
 
 const createChat = async (req, res, next) => {
   try {
@@ -49,5 +68,6 @@ const createChat = async (req, res, next) => {
 };
 
 module.exports = {
-  createChat,
+  createChatController: createChat,
+  searchUsers,
 };

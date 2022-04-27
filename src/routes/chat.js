@@ -6,6 +6,8 @@ const { protect } = require("../middlewares/authLogin");
 
 const chatController = require("../modules/controllers/chat");
 
-router.post("/create", protect, chatController.createChat);
+router.get("/users", chatController.searchUsers);
+
+router.post("/create", chatController.createChatController);
 
 module.exports = router;

@@ -65,7 +65,7 @@ const Login = () => {
 
         setTimeout(() => {
           history.push("/chat");
-        }, 4000);
+        }, 2000);
         // redirect
       }
     } catch (err) {
@@ -96,7 +96,7 @@ const Login = () => {
             <p className="cover__text">Chat and make friends!</p>
           </div>
         </div>
-        <div class="login__form">
+        <div className="login__form">
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>
             <div className="login__field">
