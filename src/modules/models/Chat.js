@@ -7,7 +7,7 @@ const ChatSchema = new mongoose.Schema(
     messages: [{ type: mongoose.Types.ObjectId, ref: "messages" }],
     status: { type: Boolean, default: false },
     notificationSent: { type: Boolean, default: false },
-    latestMessage: { type: mongoose.Types.ObjectId, ref: "users" },
+    latestMessage: { type: mongoose.Types.ObjectId, ref: "messages" },
   },
   { timeStamps: true }
 );

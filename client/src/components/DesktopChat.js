@@ -5,6 +5,7 @@ import "../assets/css/desktopChat.css";
 import Message from "./Message";
 import Conversation from "./Conversation";
 import Header from "./AppHeader";
+import ChatAndConversation from "./ChatAndConversation";
 
 // ---
 import SmileyIcon from "../assets/imgs/slightly-smiling-face.png";
@@ -65,52 +66,7 @@ const DesktopChat = () => {
       <Header />
 
       {/* Conversation */}
-      <div className="chat__and__conversation desktop__view">
-        <div>
-          <section className="conversation">
-            {conversation.map((c) => (
-              <Conversation
-                image={c.image}
-                username={c.username}
-                message={c.message}
-                time={c.time}
-              />
-            ))}
-          </section>
-        </div>
-
-        <section className="desktop__chat desktop">
-          <div className="desktop__chat__header">
-            <div className="desktop__chat__left">
-              <div className="profile__picture">
-                <img src={Image1} alt="user__image" />
-              </div>
-              <div className="profile__info">
-                <h1>User 1</h1>
-                <h3>Online</h3>
-              </div>
-            </div>
-          </div>
-          {/* Chat Messages*/}
-          <div className="messages">
-            <Message />
-          </div>
-
-          <section className="message__input">
-            <img
-              src={SmileyIcon}
-              className="message__input__emoji"
-              alt="smiley"
-            />
-            <input type="text" placeholder="Type a Message" />
-            <div className="message__input__icons">
-              <img src={CameraIcon} alt="Camera" />
-              <img src={VoiceIcon} alt="voice" />
-              <img src={SendIcon} className="send__icon" alt="send" />
-            </div>
-          </section>
-        </section>
-      </div>
+      <ChatAndConversation />
       {/* stop here */}
     </div>
   );

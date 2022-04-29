@@ -31,8 +31,10 @@ const createChat = async (req, res, next) => {
     // call service to create or return chat
 
     const result = await ChatService.createChat(mainUser, chatUser);
-    const { users, _id, status, messages, notificationSent, chatOwner } =
-      await result.populate("users", "-password");
+    const { users, _id, status, notificationSent } = await result.populate(
+      "users",
+      "-password"
+    );
 
     const otherUser = users.filter((user) => {
       return user._id.equals(chatUser);
@@ -56,10 +58,6 @@ const createChat = async (req, res, next) => {
     return res.status(200).json({
       chat: {
         id: _id,
-        name: otherUser.username,
-        pic: otherUser.profilePicture,
-        messages,
-        chatOwner,
       },
     });
   } catch (err) {
@@ -67,7 +65,44 @@ const createChat = async (req, res, next) => {
   }
 };
 
+// return single chat
+const findChat = async (req, res, next) => {
+  const chatUser = req.user._id;
+  try {
+    const { chatID } = req.body;
+    const chatResult = await ChatService.singleChat(chatID);
+    if (chatResult === null) {
+      return res.status(400).json({ message: "sorry no chat exist" });
+    }
+
+    const { users, _id, messages } = await chatResult.populate(
+      "users",
+      "-password"
+    );
+
+    const otherUser = users.filter((user) => {
+      return user._id.toString() !== chatUser;
+    })[0];
+
+    return res
+      .status(200)
+      .json({ chat: { id: _id, user: otherUser, messages: messages } });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// return all chats
+const listChat = async (req, res, next) => {
+  const userID = req.user._id;
+  const chats = await ChatService.allChat(userID);
+
+  return res.json({ chats: chats });
+};
+
 module.exports = {
   createChatController: createChat,
   searchUsers,
+  findChat,
+  listChat,
 };

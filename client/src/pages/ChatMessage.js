@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/css/chatMessage.css";
+import { useParams } from "react-router-dom";
 
 // Components
 import Message from "../components/Message";
@@ -14,6 +15,10 @@ import SendIcon from "../assets/imgs/Send.svg";
 import Image1 from "../assets/imgs/ToyFaces_Colored_BG_59.jpg";
 
 const ChatMessage = () => {
+  const { chatID } = useParams();
+
+  // fetch data from chat (single chat)
+
   return (
     <div className="chatMessage">
       <div className="mobile chat__app">

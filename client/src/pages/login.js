@@ -16,8 +16,8 @@ const Login = () => {
 
   // states
   const [errors, setErrors] = useState({
-    username: null,
-    password: null,
+    username: "",
+    password: "",
   });
 
   const [data, setData] = useState({ username: "", password: "" });
@@ -69,12 +69,18 @@ const Login = () => {
         // redirect
       }
     } catch (err) {
+      const errorData = err.response.data.errors
+        ? err.response.data.errors
+        : { username: "", password: "" };
+      const notifyMsg = err.response.data.errors
+        ? "Error Login in"
+        : "Error but We are working on it!";
       setNotification({
         success: true,
-        message: "Error login in",
+        message: notifyMsg,
         timeout: "1000",
       });
-      setErrors(err.response.data.errors);
+      setErrors(errorData);
       setTimeout(() => {
         setNotification({ success: false, message: "", timeout: 1000 });
       }, 2000);
