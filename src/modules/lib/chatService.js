@@ -1,4 +1,6 @@
 const Chat = require("../models/Chat");
+const Message = require("../models/Message");
+const { logger } = require("../utils/logger");
 
 const createChat = async (chatOwner, chatUser) => {
   const chat = await Chat.findOne({
@@ -49,8 +51,23 @@ const allChat = async (userID) => {
   return rawChat;
 };
 
+const message = async (userID, chatID, text) => {
+  try {
+    const option = {
+      chat: chatID,
+      sender: userID,
+      text: text,
+    };
+    const message = await Message.create(option, { _id: 0, id: "$_id" });
+    return message;
+  } catch (err) {
+    logger(err);
+  }
+};
+
 module.exports = {
   createChat,
   singleChat,
   allChat,
+  message,
 };

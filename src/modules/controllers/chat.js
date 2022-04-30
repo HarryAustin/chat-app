@@ -89,15 +89,37 @@ const findChat = async (req, res, next) => {
       .json({ chat: { id: _id, user: otherUser, messages: messages } });
   } catch (err) {
     next(err);
+    return err;
   }
 };
 
 // return all chats
 const listChat = async (req, res, next) => {
-  const userID = req.user._id;
-  const chats = await ChatService.allChat(userID);
+  try {
+    const userID = req.user._id;
+    const chats = await ChatService.allChat(userID);
 
-  return res.json({ chats: chats });
+    return res.json({ chats: chats });
+  } catch (err) {
+    next(err);
+    return err;
+  }
+};
+
+// to create message
+const createMessage = async (req, res, next) => {
+  try {
+    const userID = req.user._id;
+    const chatID = req.body.chatID;
+
+    //  call service to create chat
+    const message = await ChatService.message(userID, chatID, req.body.text);
+
+    return res.status(200).json({ message: message });
+  } catch (err) {
+    next(err);
+    return err;
+  }
 };
 
 module.exports = {
@@ -105,4 +127,5 @@ module.exports = {
   searchUsers,
   findChat,
   listChat,
+  createMessage,
 };

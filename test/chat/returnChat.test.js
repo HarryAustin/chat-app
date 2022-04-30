@@ -16,6 +16,9 @@ describe("To return chats", () => {
         body: {
           chatID: "3",
         },
+        user: {
+          _id: "1",
+        },
       };
       const res = createResponse();
       const next = () => {
@@ -23,13 +26,14 @@ describe("To return chats", () => {
       };
 
       //   call chat service
+
       const chatService = sinon.stub(ChatService, "singleChat").returns({
-        chat: {
-          id: "3",
-          chatOwner: "user 2",
-          users: ["1", "2"],
-          messages: [],
-          latestMessage: "4",
+        populate: function () {
+          return {
+            users: [{ _id: "2", username: "test", profilePicture: "default" }],
+            _id: "3",
+            messages: [],
+          };
         },
       });
 
@@ -49,7 +53,11 @@ describe("To return chats", () => {
 
   describe("for all chats paginated tho", () => {
     it("it returns all chat and success too", async () => {
-      const req = {};
+      const req = {
+        user: {
+          _id: "1",
+        },
+      };
       const res = createResponse();
       const next = () => {
         return;
@@ -70,9 +78,7 @@ describe("To return chats", () => {
 
       const chat = await listChat(req, res, next);
 
-      expect(chatService.calledOnce).to.be.true;
-
-      expect(chat._getJSONData()).to.be.an("array");
+      expect(chat._getJSONData().chats).to.be.an("array");
 
       sinon.restore();
       sinon.verifyAndRestore();
