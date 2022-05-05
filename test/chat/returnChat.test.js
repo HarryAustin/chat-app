@@ -66,13 +66,11 @@ describe("To return chats", () => {
       //   call chat service
       const chatService = sinon.stub(ChatService, "allChat").returns([
         {
-          chat: {
-            id: "3",
-            chatOwner: "user 2",
-            users: ["1", "2"],
-            messages: [],
-            latestMessage: "4",
-          },
+          id: "3",
+          chatOwner: "user 2",
+          users: [{ profilePicture: "default", username: "test user" }],
+          messages: [],
+          latestMessage: "4",
         },
       ]);
 

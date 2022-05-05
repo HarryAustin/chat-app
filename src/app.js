@@ -3,6 +3,7 @@ const express = require("express");
 // my func
 const authRoutes = require("./routes/auth");
 const chatRoutes = require("./routes/chat");
+const { notificationRoutes } = require("./routes/notification");
 
 // midddlewares
 const { protect } = require("./middlewares/authLogin");
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/auth/v1", authRoutes);
 app.use("/chat/v1", protect, chatRoutes);
+app.use("/notifications/v1", protect, notificationRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "page does not exist" });

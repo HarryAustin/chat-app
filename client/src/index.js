@@ -7,11 +7,11 @@ import { ChatProvider } from "./context/ChatProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-  <BrowserRouter>
-    <ChatProvider>
-      <App />
-    </ChatProvider>
-  </BrowserRouter>
+    <BrowserRouter>
+      <ChatProvider>
+        <App />
+      </ChatProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

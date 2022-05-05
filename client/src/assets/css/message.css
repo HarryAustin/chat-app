@@ -43,6 +43,10 @@
   margin-left: 0.5rem;
 }
 
+.no__messages__text {
+  text-align:center;
+}
+
 @media screen and (min-width: 1200px) {
   .message {
     max-width: 30rem;

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/chat.css";
+
+import { ChatState } from "../context/ChatProvider";
+import { useHistory } from "react-router-dom";
+
 import StoryImage from "../components/Story";
 import Conversation from "../components/Conversation";
 import Menu from "../components/Menu";
@@ -18,6 +22,7 @@ import Image6 from "../assets/imgs/ToyFaces_Colored_BG_49.jpg";
 import Image7 from "../assets/imgs/ToyFaces_Colored_BG_56.jpg";
 
 const Chat = () => {
+  const { user, loader } = ChatState();
   // State for images
   const [storyImgs, setStoryImgs] = useState([
     { image: Image1, name: "User 1" },
@@ -29,40 +34,27 @@ const Chat = () => {
     { image: Image7, name: "User 7" },
   ]);
 
-  /**
-   * Just like this above, after searching for users, return an array with the data as 
-   * [{
-   *   id: 1,
-   *    name: 'user 1',
-   *    ....
-   * }
-   * ]
-   * 
-   Then when a user clicks on any of the users, we pick the id and create an Api query like '/chat/create?user={id}
-  // since these are the data, i must offcourse call the data in a component or some "html".
-  // we can render each in a link with their id to the chat page, then make the request and other logic.
-   */
-
   return (
-    <div className="chatApp">
-      <div className="chat">
-        {/* header here */}
-        <Header />
-
-        {/* Stories After header and before chat and*/}
-        <section className="stories">
-          {storyImgs.map((img) => (
-            <StoryImage StoryImg={img.image} StoryName={img.name} />
-          ))}
-        </section>
-
-        <ChatAndConversation />
-        {/* component here */}
-      </div>
-      <section className="App__menu">
-        <Menu />
-      </section>
-    </div>
+    <>
+      {loader ? (
+        <h1>loading .... </h1>
+      ) : (
+        <div className="chatApp">
+          <div className="chat">
+            <Header />
+            <section className="stories">
+              {storyImgs.map((img) => (
+                <StoryImage StoryImg={img.image} StoryName={img.name} />
+              ))}
+            </section>
+            <ChatAndConversation />
+          </div>
+          <section className="App__menu">
+            <Menu />
+          </section>
+        </div>
+      )}
+    </>
   );
 };
 

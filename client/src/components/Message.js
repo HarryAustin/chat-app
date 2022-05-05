@@ -1,7 +1,7 @@
 import React from "react";
 import "../assets/css/message.css";
 
-const Message = () => {
+const Message = ({ text, time }) => {
   return (
     <>
       <div className="message__and__time">

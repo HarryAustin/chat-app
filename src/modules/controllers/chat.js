@@ -40,18 +40,22 @@ const createChat = async (req, res, next) => {
       return user._id.equals(chatUser);
     })[0];
 
+    const otherUserId = otherUser._id;
+
     if (!status && !notificationSent) {
       //   if false call notification
       //   notification object, will use websockets or push notifications for this.
       const notificationObj = {
-        user: otherUser._id,
+        user: otherUserId,
         chat: _id,
-        message: `${otherUser.username} wants to chat with you, what do you think?`,
+        message: `${req.user.username} wants to chat with you, what do you think?`,
       };
-      await Notification.create(notificationObj);
+      const notificationMsg = await Notification.create(notificationObj);
       //   update the chat
-      await Chat.findByIdAndUpdate({ _id }, { notificationSent: true });
       //   To prevent sending notification twice
+      await Chat.findByIdAndUpdate({ _id }, { notificationSent: true });
+      // update user as well
+      await User.findByIdAndUpdate({ otherUserId }, {$push: { notifications: notificationMsg._id }})
     }
 
     // get other user info.
@@ -61,6 +65,7 @@ const createChat = async (req, res, next) => {
       },
     });
   } catch (err) {
+    logger(err)
     next(err);
   }
 };
@@ -88,6 +93,7 @@ const findChat = async (req, res, next) => {
       .status(200)
       .json({ chat: { id: _id, user: otherUser, messages: messages } });
   } catch (err) {
+    logger(err)
     next(err);
     return err;
   }
@@ -99,7 +105,21 @@ const listChat = async (req, res, next) => {
     const userID = req.user._id;
     const chats = await ChatService.allChat(userID);
 
-    return res.json({ chats: chats });
+    // return res.json({ chats: chats });
+    // for the structure of the frontend requirement.
+    const returnChat = [];
+    chats.forEach((chat) => {
+      const chatObj = {
+        id: chat._id,
+        image: chat.users[0].profilePicture,
+        username: chat.users[0].username,
+        message: chat.latestMessage,
+        time: chat.time,
+      };
+      returnChat.push(chatObj);
+    });
+    return res.json({ chats: returnChat });
+    // return res.json({ chats });
   } catch (err) {
     next(err);
     return err;
@@ -117,6 +137,7 @@ const createMessage = async (req, res, next) => {
 
     return res.status(200).json({ message: message });
   } catch (err) {
+    logger(err)
     next(err);
     return err;
   }

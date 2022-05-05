@@ -8,6 +8,7 @@ const ChatSchema = new mongoose.Schema(
     status: { type: Boolean, default: false },
     notificationSent: { type: Boolean, default: false },
     latestMessage: { type: mongoose.Types.ObjectId, ref: "messages" },
+    time: { type: Date, default: Date.now() },
   },
   { timeStamps: true }
 );

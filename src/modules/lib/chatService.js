@@ -43,11 +43,15 @@ const singleChat = async (chatID) => {
 const allChat = async (userID) => {
   const rawChat = await Chat.find({
     $or: [{ chatOwner: userID }, { status: true, users: { $in: [userID] } }],
-  }).populate({
-    path: "users",
-    match: { _id: { $ne: userID } },
-    select: "-password",
-  });
+  })
+    .populate({
+      path: "users",
+      match: { _id: { $ne: userID } },
+      select: "-password",
+    })
+    .populate({
+      path: "latestMessage",
+    });
   return rawChat;
 };
 

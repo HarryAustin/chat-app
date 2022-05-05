@@ -100,6 +100,23 @@
   height: 100%;
 }
 
+.header__notification {
+  position: relative;
+}
+
+.header__notification::after {
+  content: '';
+  background: red;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 0rem;
+  right: 0.1rem;
+}
+
+
+
 .stories {
   margin-top: 2rem;
   margin-bottom: 3rem;

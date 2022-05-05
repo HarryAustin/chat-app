@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+
+import { ChatState } from "../context/ChatProvider";
 
 // components
 import Notify from "../components/Notify";
@@ -13,6 +15,9 @@ import LoginImg from "../assets/imgs/Login_1.svg";
 const Login = () => {
   // history
   const history = useHistory();
+
+  // Store state
+  const { user, setUser, setLoader } = ChatState();
 
   // states
   const [errors, setErrors] = useState({
@@ -34,8 +39,6 @@ const Login = () => {
     setHide(!hide);
   };
 
-  const [success, setSuccess] = useState(false);
-
   const handleChange = (e) => {
     const mData = { ...data };
     mData[e.target.name] = e.target.value;
@@ -51,8 +54,12 @@ const Login = () => {
         setData({ username: "", password: "" });
         // data for client
         const saveInfo = { token: res.data.token, user: res.data.user };
+        // update store state before page refreshor components remount
+        setUser(saveInfo);
         // save to localstorage
         localStorage.setItem("data", JSON.stringify(saveInfo));
+        // loader for store data
+        // setLoader(false);
 
         // notification
         setNotification({
@@ -65,7 +72,8 @@ const Login = () => {
 
         setTimeout(() => {
           history.push("/chat");
-        }, 2000);
+        }, 1000);
+
         // redirect
       }
     } catch (err) {
@@ -149,13 +157,15 @@ const Login = () => {
           </form>
           <div className="login__footer">
             <h2>
-              New to myXhat? Click here to{" "}
-              <span className="footer__link">Register</span>
+              New to myXhat? Click here to &nbsp;
+              <span className="footer__link">
+                <Link to="/auth/signup">Signup</Link>
+              </span>
             </h2>
             <h2>
-              Please note; to use our app, you agree to our
-              <span className="footer__link">terms</span> and
-              <span className="footer__link">conditions</span>,
+              Please note; to use our app, you agree to our &nbsp;
+              <span className="footer__link">terms</span>&nbsp; and &nbsp;
+              <span className="footer__link">conditions</span>, &nbsp;
               <span className="footer__link">policy</span>
             </h2>
           </div>
