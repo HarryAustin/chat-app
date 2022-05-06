@@ -55,7 +55,10 @@ const createChat = async (req, res, next) => {
       //   To prevent sending notification twice
       await Chat.findByIdAndUpdate({ _id }, { notificationSent: true });
       // update user as well
-      await User.findByIdAndUpdate({ otherUserId }, {$push: { notifications: notificationMsg._id }})
+      await User.findByIdAndUpdate(
+        { otherUserId },
+        { $push: { notifications: notificationMsg._id } }
+      );
     }
 
     // get other user info.
@@ -65,7 +68,7 @@ const createChat = async (req, res, next) => {
       },
     });
   } catch (err) {
-    logger(err)
+    logger(err);
     next(err);
   }
 };
@@ -79,11 +82,7 @@ const findChat = async (req, res, next) => {
     if (chatResult === null) {
       return res.status(400).json({ message: "sorry no chat exist" });
     }
-
-    const { users, _id, messages } = await chatResult.populate(
-      "users",
-      "-password"
-    );
+    const { users, _id, messages } = chatResult;
 
     const otherUser = users.filter((user) => {
       return user._id.toString() !== chatUser;
@@ -93,7 +92,7 @@ const findChat = async (req, res, next) => {
       .status(200)
       .json({ chat: { id: _id, user: otherUser, messages: messages } });
   } catch (err) {
-    logger(err)
+    logger(err);
     next(err);
     return err;
   }
@@ -134,10 +133,25 @@ const createMessage = async (req, res, next) => {
 
     //  call service to create chat
     const message = await ChatService.message(userID, chatID, req.body.text);
-
     return res.status(200).json({ message: message });
   } catch (err) {
-    logger(err)
+    logger(err);
+    next(err);
+    return err;
+  }
+};
+
+const updateChat = async (req, res, next) => {
+  try {
+    const chatID = req.body.chatID;
+    const updateService = await ChatService.updateChat(chatID);
+    if (updateService) {
+      return res.json({ status: "success", chat: { id: updateService._id } });
+    } else {
+      return res.json({ status: "failed" });
+    }
+  } catch (err) {
+    logger(err);
     next(err);
     return err;
   }
@@ -149,4 +163,5 @@ module.exports = {
   findChat,
   listChat,
   createMessage,
+  updateChat,
 };

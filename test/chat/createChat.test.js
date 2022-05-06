@@ -51,26 +51,30 @@ describe("Chat Conversation", () => {
 
       //   service to create conversation
       const createService = sinon.stub(ChatService, "createChat").returns({
-        user: [
-          {
-            _id: "2",
-            username: "user 2",
-            profilePicture: "default",
-          },
-          {
-            _id: "1",
-            username: "user 1",
-            profilePicture: "default",
-          },
-        ],
-        chat: {
-          _id: "3",
-          chatName: "user 2",
+        populate: () => {
+          return {
+            users: [
+              {
+                _id: "2",
+                username: "user 2",
+                profilePicture: "default",
+              },
+              {
+                _id: "1",
+                username: "user 1",
+                profilePicture: "default",
+              },
+            ],
+            chat: {
+              _id: "3",
+              chatName: "user 2",
+            },
+            status: false, //This means both users havent agreed to the chat yet.
+            messages: [{ message: "hey there!", time: "23452637263" }], //this means untill a user chats with the other, till then we create the chat.
+            // Messages must be paginated!!!
+            notificationSent: false,
+          };
         },
-        status: false, //This means both users havent agreed to the chat yet.
-        messages: [{ message: "hey there!", time: "23452637263" }], //this means untill a user chats with the other, till then we create the chat.
-        // Messages must be paginated!!!
-        notificationSent: false,
       });
       // create chat service will check if a chat had exist before, if it had exist, it'll return the chat
       // and the data above is when a new chat is created.

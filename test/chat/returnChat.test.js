@@ -4,7 +4,11 @@ const sinon = require("sinon");
 const { createResponse } = require("node-mocks-http");
 
 // controllers
-const { findChat, listChat } = require("../../src/modules/controllers/chat");
+const {
+  findChat,
+  listChat,
+  updateChat,
+} = require("../../src/modules/controllers/chat");
 
 // service
 const ChatService = require("../../src/modules/lib/chatService");
@@ -80,6 +84,38 @@ describe("To return chats", () => {
 
       sinon.restore();
       sinon.verifyAndRestore();
+    });
+  });
+
+  describe("chat updated", () => {
+    it("it should update chat for second user", async () => {
+      const req = {
+        body: {
+          chatID: "3",
+        },
+        user: {
+          _id: "1",
+        },
+      };
+      const res = createResponse();
+      const next = () => {
+        return;
+      };
+
+      // service
+      const updateService = sinon.stub(ChatService, "updateChat").returns({
+        _id: "1",
+        chat: "3",
+      });
+
+      const chat = await updateChat(req, res, next);
+
+      expect(updateService.calledOnce).to.be.true;
+      expect(updateService.calledWith(req.body.chatID)).to.be.true;
+
+      expect(chat._getJSONData()).to.have.property("status");
+      expect(chat._getJSONData().status).to.equal("success");
+      expect(chat._getJSONData()).to.have.property("chat");
     });
   });
 });

@@ -18,8 +18,8 @@ import SendIcon from "../assets/imgs/Send.svg";
 import Image1 from "../assets/imgs/ToyFaces_Colored_BG_59.jpg";
 
 const ChatMessage = () => {
-  const { user, loader } = ChatState();
-  const [messages, setMessages] = useState([]);
+  const { user, messages, setMessages } = ChatState();
+
   const [chat, setChat] = useState({
     username: "",
     profilePicture: "",
@@ -58,8 +58,34 @@ const ChatMessage = () => {
     };
     fetchChat();
   }, [user.token, chatID]);
-
   // fetch data from chat (single chat)
+
+  // msg state
+  const [text, setText] = useState("");
+
+  // send message function
+  const sendMsg = async () => {
+    // send a request to axios
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const body = {
+      text,
+      chatID,
+    };
+    try {
+      const { data } = await axios.post("/chat/v1/message", body, config);
+      setMessages([
+        ...messages,
+        { text: data.message.text, sender: data.message.sender },
+      ]);
+      setText("");
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
 
   return (
     <>
@@ -84,7 +110,11 @@ const ChatMessage = () => {
             {/* Mobile messages */}
             <div className="messages container">
               {messages.map((message) => (
-                <Message text={message.text} time={message.time} />
+                <Message
+                  text={message.text}
+                  time={message.time}
+                  sender={message.sender}
+                />
               ))}
             </div>
 
@@ -95,17 +125,28 @@ const ChatMessage = () => {
                   className="message__input__emoji"
                   alt="smiley"
                 />
-                <input type="text" placeholder="Type a Message" />
+                <input
+                  type="text"
+                  placeholder="Type a Message"
+                  name="text"
+                  onChange={(e) => setText(e.target.value)}
+                  value={text}
+                />
                 <div className="message__input__icons">
                   <img src={CameraIcon} alt="Camera" />
                   <img src={VoiceIcon} alt="voice" />
-                  <img src={SendIcon} className="send__icon" alt="send" />
+                  <img
+                    src={SendIcon}
+                    className="send__icon"
+                    alt="send"
+                    onClick={sendMsg}
+                  />
                 </div>
               </div>
             </section>
           </div>
           <div className="desktop">
-            <DesktopChat chat={chat} messages={messages} />
+            <DesktopChat chat={chat} />
           </div>
         </div>
       )}

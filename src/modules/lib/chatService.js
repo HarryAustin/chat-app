@@ -20,8 +20,13 @@ const createChat = async (chatOwner, chatUser) => {
 };
 
 const singleChat = async (chatID) => {
-  const rawChat = await Chat.findById(chatID);
-  return rawChat;
+  const rawChat = await Chat.findById(chatID)
+    .populate({ path: "users", select: "-password" })
+    .populate({ path: "messages", select: "sender text" });
+
+  const { users, _id, messages } = rawChat;
+  // return rawChat;
+  return { users, _id, messages };
 };
 
 // const allChat = async (userID) => {
@@ -62,8 +67,32 @@ const message = async (userID, chatID, text) => {
       sender: userID,
       text: text,
     };
-    const message = await Message.create(option, { _id: 0, id: "$_id" });
-    return message;
+    // const message = await Message.create(option, { _id: 0, id: "$_id" });
+    const message = await Message.create(option);
+    await Chat.findByIdAndUpdate(chatID, {
+      $push: { messages: message._id },
+    });
+    // // get chat message
+    // const values = chatMessage.populate("messages, sender text");
+
+    // // return message;
+    // return values;
+    return { sender: message.sender, text: message.text };
+  } catch (err) {
+    logger(err);
+  }
+};
+
+const updateChat = async (chatID) => {
+  try {
+    const chat = await Chat.findByIdAndUpdate(chatID, {
+      $set: { status: true },
+    });
+    if (chat !== null) {
+      return chat;
+    } else {
+      return { status: "Failed" };
+    }
   } catch (err) {
     logger(err);
   }
@@ -74,4 +103,5 @@ module.exports = {
   singleChat,
   allChat,
   message,
+  updateChat,
 };

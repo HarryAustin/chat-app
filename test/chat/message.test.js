@@ -15,7 +15,7 @@ describe("Messages", () => {
           _id: "1",
         },
         body: {
-          chat: "3",
+          chatID: "3",
           text: "hi there!",
         },
       };
@@ -29,12 +29,10 @@ describe("Messages", () => {
       //   for now. we just want to create messages. nothing extra
 
       const messageService = sinon.stub(ChatService, "message").returns({
-        message: {
-          id: "5",
-          chat: "3",
-          sender: "1",
-          text: "Hey there!",
-        },
+        id: "5",
+        chat: "3",
+        sender: "1",
+        text: "Hey there!",
       });
 
       const message = await createMessage(req, res, next);

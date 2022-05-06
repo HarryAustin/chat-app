@@ -1,21 +1,30 @@
 .message__and__time {
+  display: inline-block;
+  width: 100%;
+}
+
+.message__block { 
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+  align-items:center;
+  margin: 0rem 0.5rem;
+  float: left;
 }
 
 .sender {
   float: right;
+  margin-top:1rem;
 }
 
 .message {
   background: var(--message-grey-background);
+  min-width: 7rem;
   max-width: 13rem;
   padding: 1rem 0.7rem;
-  margin: 0rem 0rem; /* check again*/
+  margin: .6rem 0rem; /* check again*/
   border-radius: 18px;
   border-bottom-left-radius: 0px;
 }
+
 
 .sender__message {
   background: var(--button-background);
@@ -48,9 +57,16 @@
 }
 
 @media screen and (min-width: 1200px) {
-  .message {
-    max-width: 30rem;
-    margin: 0rem 1.5rem;
+
+  .message__and__time {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .message__block {
+    width: auto;
+    max-width:  25rem;
+    margin: 0rem 1rem;
   }
 
   .sender__time {

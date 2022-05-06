@@ -104,18 +104,23 @@
   .chat__and__conversation {
     display: flex;
     height: calc(100vh - 6rem);
+    min-width: 0rem;
   }
 
   .chat__and__conversation > div {
-    width: 25% !important;
+    width: 23% !important;
     border: 1px solid rgba(164, 164, 164, 0.2);
+    min-width: 0;
+    overflow-y: scroll;
   }
 
   .desktop__chat {
-    /* background: red; */
-    width: 75%;
+    width: 72%;
     margin-left: 1.5rem;
     border: 1px solid rgba(164, 164, 164, 0.2);
+    overflow-y: scroll !important;
+    min-width: 0;
+  
   }
 
   .desktop__chat__header {
@@ -158,9 +163,15 @@
     margin-top: 0.2rem;
   }
 
+  .messages {
+    height: 100%;
+    overflow-y: scroll;
+
+  }
+
   .message__input {
     position: fixed;
-    bottom: 7rem;
+    bottom: 3rem;
     height: 3rem;
     border: 1px solid var(--message-input-text);
     width: 30%;
