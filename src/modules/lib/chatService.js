@@ -23,10 +23,12 @@ const singleChat = async (chatID) => {
   const rawChat = await Chat.findById(chatID)
     .populate({ path: "users", select: "-password" })
     .populate({ path: "messages", select: "sender text" });
-
-  const { users, _id, messages } = rawChat;
+  if (rawChat !== null) {
+    const { users, _id, messages } = rawChat;
+    return { users, _id, messages };
+  }
   // return rawChat;
-  return { users, _id, messages };
+  return rawChat;
 };
 
 // const allChat = async (userID) => {
@@ -77,7 +79,7 @@ const message = async (userID, chatID, text) => {
 
     // // return message;
     // return values;
-    return { sender: message.sender, text: message.text };
+    return { sender: message.sender, text: message.text, chat: message.chat };
   } catch (err) {
     logger(err);
   }

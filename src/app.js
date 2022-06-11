@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 // my func
 const authRoutes = require("./routes/auth");
@@ -13,6 +14,24 @@ const { logger } = require("./modules/utils/logger");
 
 // app
 const app = express();
+
+// PORT
+const PORT = process.env.PORT;
+
+const server = app.listen(8000, () => {
+  console.log(`server running on port ${PORT}`);
+});
+
+const io = require("./sockets/index")(server);
+
+// setup cors
+app.use(cors());
+
+// middleware for socket io.
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 app.use(express.json());
 
@@ -32,4 +51,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
+module.exports = { app, server };

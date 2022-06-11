@@ -47,7 +47,6 @@ body {
   font-size: 10px;
   font-family: "Medium", sans-serif;
   color: var(--black-text-color);
-  overflow-Y: scroll;
 }
 
 .container {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/chatMessage.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import socket from "../socket/index";
 
 // Components
 import Message from "../components/Message";
@@ -19,6 +20,7 @@ import Image1 from "../assets/imgs/ToyFaces_Colored_BG_59.jpg";
 
 const ChatMessage = () => {
   const { user, messages, setMessages } = ChatState();
+  const [chatLoader, setChatLoader] = useState(true);
 
   const [chat, setChat] = useState({
     username: "",
@@ -27,9 +29,43 @@ const ChatMessage = () => {
     _v: 0,
   });
 
-  const [chatLoader, setChatLoader] = useState(true);
-
   const { chatID } = useParams();
+
+  const [typing, setTyping] = useState(false);
+
+  // socket
+  useEffect(() => {
+    console.log("chat id", chatID);
+    socket.emit("join chat", chatID);
+
+    socket.on("isTyping", () => {
+      setTyping(true);
+    }); //typing indicator
+
+    socket.on("stop isTyping", () => {
+      setTyping(false);
+    });
+  }, []);
+
+  // msg state
+  const [text, setText] = useState("");
+
+  // messages
+  useEffect(() => {
+    socket.on("message", (message) => {
+      setMessages([
+        ...messages,
+        { text: message.text, sender: message.sender },
+      ]);
+    });
+  }, [messages]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      socket.emit("stop typing", chatID);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [text]);
 
   useEffect(() => {
     const body = {
@@ -60,8 +96,13 @@ const ChatMessage = () => {
   }, [user.token, chatID]);
   // fetch data from chat (single chat)
 
-  // msg state
-  const [text, setText] = useState("");
+  const onChangeHandler = (e) => {
+    setText(e.target.value);
+
+    if (!typing) {
+      socket.emit("typing", chatID);
+    }
+  };
 
   // send message function
   const sendMsg = async () => {
@@ -77,11 +118,15 @@ const ChatMessage = () => {
     };
     try {
       const { data } = await axios.post("/chat/v1/message", body, config);
+      // send messae  through socket
+      socket.emit("new message", data.message);
       setMessages([
         ...messages,
         { text: data.message.text, sender: data.message.sender },
       ]);
+      socket.emit("stop typing", chatID);
       setText("");
+      setTyping(false);
     } catch (err) {
       console.log(err.response.data);
     }
@@ -119,6 +164,7 @@ const ChatMessage = () => {
             </div>
 
             <section className="message__input">
+              {typing ? <h3>Typing...</h3> : ""}
               <div className="container d-flex">
                 <img
                   src={SmileyIcon}
@@ -129,7 +175,7 @@ const ChatMessage = () => {
                   type="text"
                   placeholder="Type a Message"
                   name="text"
-                  onChange={(e) => setText(e.target.value)}
+                  onChange={onChangeHandler}
                   value={text}
                 />
                 <div className="message__input__icons">
@@ -146,7 +192,7 @@ const ChatMessage = () => {
             </section>
           </div>
           <div className="desktop">
-            <DesktopChat chat={chat} />
+            <DesktopChat chat={chat} messages={messages} />
           </div>
         </div>
       )}

@@ -17,10 +17,10 @@
 .conversation__image {
   width: 20%;
   height: auto;
-  position: relative;
+  /* position: relative; */
 }
 
-.conversation__image::after {
+/* .conversation__image::after {
   content: "";
   background: var(--button-background);
   height: 1rem;
@@ -29,7 +29,7 @@
   position: absolute;
   bottom: 0.5rem;
   right: 0.1rem;
-}
+} */
 
 .conversation__image > img {
   height: 100%;

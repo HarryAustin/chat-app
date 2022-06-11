@@ -16,12 +16,13 @@
     background: #fff;
   }
 
-  .search__desktop__view {
-    display: initial;
+  .chat__and__conversation{
+    height: 100vh;
   }
 
-  .desktop {
+  .search__desktop__view {
     display: initial;
+    overflow: none;
   }
 
   .header__right {
@@ -118,9 +119,9 @@
     width: 72%;
     margin-left: 1.5rem;
     border: 1px solid rgba(164, 164, 164, 0.2);
-    overflow-y: scroll !important;
     min-width: 0;
-  
+    overflow-y: scroll;
+    margin-bottom: 10rem;
   }
 
   .desktop__chat__header {
@@ -165,8 +166,6 @@
 
   .messages {
     height: 100%;
-    overflow-y: scroll;
-
   }
 
   .message__input {

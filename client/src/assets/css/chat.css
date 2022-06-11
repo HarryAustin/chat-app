@@ -1,7 +1,7 @@
 .chatApp {
   position: relative;
   background: linear-gradient(#ffff, var(--background));
-  overflow-y: scroll;
+  height: 100vh
 }
 
 .desktop {

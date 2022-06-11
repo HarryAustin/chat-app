@@ -3,6 +3,8 @@ const Chat = require("../models/Chat");
 const ChatService = require("../lib/chatService");
 const Notification = require("../models/Notification");
 
+const { Types } = require("mongoose");
+
 const { logger } = require("../utils/logger");
 
 const searchUsers = async (req, res, next) => {
@@ -40,9 +42,9 @@ const createChat = async (req, res, next) => {
       return user._id.equals(chatUser);
     })[0];
 
-    const otherUserId = otherUser._id;
+    const otherUserId = Types.ObjectId(otherUser._id);
 
-    if (!status && !notificationSent) {
+    if (!notificationSent) {
       //   if false call notification
       //   notification object, will use websockets or push notifications for this.
       const notificationObj = {
@@ -51,14 +53,15 @@ const createChat = async (req, res, next) => {
         message: `${req.user.username} wants to chat with you, what do you think?`,
       };
       const notificationMsg = await Notification.create(notificationObj);
+      // send sockets to frontend for notifications
+      req.io.to(otherUserId.toString()).emit("notifications", notificationObj);
       //   update the chat
       //   To prevent sending notification twice
-      await Chat.findByIdAndUpdate({ _id }, { notificationSent: true });
+      await Chat.findByIdAndUpdate(_id, { notificationSent: true });
       // update user as well
-      await User.findByIdAndUpdate(
-        { otherUserId },
-        { $push: { notifications: notificationMsg._id } }
-      );
+      await User.findByIdAndUpdate(otherUserId, {
+        $push: { notifications: notificationMsg._id },
+      });
     }
 
     // get other user info.
