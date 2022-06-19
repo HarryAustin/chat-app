@@ -126,3 +126,16 @@ That will be all, so anticipate for my version 2 which will include more and for
 
 You can follow and chat me on twitter, handle is backendharry, same on linkedIn at backendharry or read some of my stuff at hashnode hashnode.dev/backendharry.
 Happy coding!!
+
+images of this version
+
+- <img src="./pic1.png" width="400" />
+- <img src="./pic2.png" width="300" height="600"/>
+- <img src="./pic3.png" width="300" height="600"/>
+- <img src="./pic4.png" width="300" height="600"/>
+- <img src="./pic5.png" width="300" height="600"/>
+- <img src="./pic6.png" width="300" height="600"/>
+- <img src="./pic7.png" width="300" height="700"/>
+- <img src="./pic8.png" width="300" height="600"/>
+- <img src="./pic9.png" width="300" height="600"/>
+- <img src="./pic10.png" width="300" height="600"/>
